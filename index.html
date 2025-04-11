@@ -1,12 +1,11 @@
 
-
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Make IoT Website</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website with Callback Button</title>
 
   <style>
     * {
@@ -27,14 +26,29 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+  
       font-size: 14px;
-      position: fixed;
-      width: 100%;
-      top: 0;
-      left: 0;
-      z-index: 1100;
+      z-index: 1000;
       height: 40px;
+      
     }
+
+    .top-header {
+  background-color:#f7902a;
+  color: white;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1100; /* Higher than navbar */
+}
+
+
 
     .top-header .center-text {
       position: absolute;
@@ -50,7 +64,7 @@
       background-color: #eae5e5;
       padding: 15px 30px;
       position: fixed;
-      top: 40px;
+      top: 38px;
       width: 100%;
       z-index: 1000;
       height: 80px;
@@ -75,7 +89,7 @@
     .nav-center li a {
       text-decoration: none;
       color: #111;
-      font-size: 18px;
+      font-size:18px;
       font-weight: bold;
       padding: 5px 10px;
       transition: color 0.2s;
@@ -109,10 +123,10 @@
       transform: translateY(0);
       width: 300px;
       background: white;
-      box-shadow: -5px 0 10px rgba(0, 0, 0, 0.2);
+      box-shadow: -5px 0 10px rgba(0,0,0,0.2);
       padding: 20px;
       transition: right 0.4s ease-in-out;
-      z-index: 2000;
+      z-index: 1000;
     }
 
     .callback-form.active {
@@ -152,6 +166,7 @@
       cursor: pointer;
       border-radius: 5px;
       width: 80px;
+      align-items: center;
     }
 
     button[type="submit"]:hover {
@@ -185,11 +200,13 @@
         text-align: center;
         padding: 10px;
         gap: 5px;
+        z-index: 1000;
       }
 
       .top-header .center-text {
         position: static;
         transform: none;
+      
       }
 
       .callback-form {
@@ -206,19 +223,33 @@
       .nav-center li a {
         font-size: 18px;
       }
+
+
+      .top-header {
+  background-color: #af9820;
+  color: white;
+  padding: 8px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1100; /* Higher than navbar */
+}
+
     }
   </style>
 </head>
-
 <body>
-  <!-- Top Header -->
   <div class="top-header">
     <div>📧 info@makeiot.in</div>
     <div class="center-text">Connect, Learn, and Build with IoT</div>
     <div>📞 +918856905687</div>
   </div>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">
       <img src="Make_IoT__3_-removebg-preview.png" alt="Logo">
@@ -234,20 +265,44 @@
     <button id="callbackBtn" class="navbar-callback-btn">📞 Request a Callback</button>
   </nav>
 
-  <!-- Callback Form -->
   <div class="callback-form" id="callbackForm">
     <span class="close-btn" id="closeForm">&times;</span>
     <h2>Request a Callback</h2>
     <form id="callbackFormData" method="POST" name="contact-form">
       <label for="name">Name:</label>
       <input type="text" name="name" id="name" required>
+
       <label for="contact">Contact No:</label>
       <input type="tel" name="contact_number" id="contact_number" required>
+
       <label for="email">Email:</label>
       <input type="email" name="email" id="email" required>
+
       <button type="submit">Submit</button>
     </form>
   </div>
+
+  <script>
+    document.getElementById("callbackBtn").addEventListener("click", function () {
+      document.getElementById("callbackForm").classList.add("active");
+    });
+
+    document.getElementById("closeForm").addEventListener("click", function () {
+      document.getElementById("callbackForm").classList.remove("active");
+    });
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxoHvMT10iR8JfQEjE23J3pOgifAWj1FttCAnb8hHP81naKXEp2svxBVzrHz66ogbk/exec';
+    const form = document.forms['contact-form'];
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => alert("Thank you! Form is submitted"))
+        .then(() => { window.location.reload(); })
+        .catch(error => console.error('Error!', error.message));
+    });
+  </script>
+
 
 
 
@@ -583,76 +638,6 @@
 </style>
 
 
-
-
-
-
-
-  <!-- Courses Section -->
-  <section id="batches" style="padding: 60px 20px; background-color: #fff;">
-    <h2 style="text-align: center; margin-bottom: 30px; font-size: 28px; font-weight: bold; color: #333;">📅 Upcoming Batches</h2>
-    <div style="overflow-x:auto;">
-      <table style="width:700px; border-collapse: collapse; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin-left: 30%;">
-        <thead style="background-color: #ff5722; color: white;">
-          <tr>
-            <th style="padding: 12px;">Sr No</th>
-            <th style="padding: 12px;">Course</th>
-            <th style="padding: 12px;">Mode</th>
-            <th style="padding: 12px;">Date</th>
-            <th style="padding: 12px;">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background-color: #f9f9f9;">
-            <td style="padding: 12px;">1</td>
-            <td style="padding: 12px;">Master Embeeded System in 90 Days</td>
-            <td style="padding: 12px;">Offline+Online</td>
-            <td style="padding: 12px;">1 May 2025</td>
-            <td style="padding: 12px;"><button class="enroll-btn" style="padding: 8px 14px; background-color: #e64a19; color: white; border: none; border-radius: 5px; cursor: pointer;">Enroll Now</button></td>
-          </tr>
-          <tr>
-            <td style="padding: 12px;">2</td>
-            <td style="padding: 12px;">Master PLC-SCADA System in 30 Days</td>
-            <td style="padding: 12px;">Offline+Online</td>
-            <td style="padding: 12px;">1 May 2025</td>
-            <td style="padding: 12px;"><button class="enroll-btn" style="padding: 8px 14px; background-color: #e64a19; color: white; border: none; border-radius: 5px; cursor: pointer;">Enroll Now</button></td>
-          </tr>
-
-          <tr>
-            <td style="padding: 12px;">3</td>
-            <td style="padding: 12px;"> Free Embeeded and IoT Internship</td>
-            <td style="padding: 12px;">Offline+Online</td>
-            <td style="padding: 12px;">1 May 2025</td>
-            <td style="padding: 12px;"><button class="enroll-btn" style="padding: 8px 14px; background-color: #e64a19; color: white; border: none; border-radius: 5px; cursor: pointer;">Enroll Now</button></td>
-          </tr>
-
-
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- JavaScript -->
-  <script>
-    const callbackBtn = document.getElementById("callbackBtn");
-    const callbackForm = document.getElementById("callbackForm");
-    const closeForm = document.getElementById("closeForm");
-    const enrollButtons = document.querySelectorAll(".enroll-btn");
-
-    callbackBtn.addEventListener("click", () => callbackForm.classList.add("active"));
-    closeForm.addEventListener("click", () => callbackForm.classList.remove("active"));
-    enrollButtons.forEach(btn => btn.addEventListener("click", () => callbackForm.classList.add("active")));
-
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyxoHvMT10iR8JfQEjE23J3pOgifAWj1FttCAnb8hHP81naKXEp2svxBVzrHz66ogbk/exec';
-    const form = document.forms['contact-form'];
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-        .then(response => alert("Thank you! Form is submitted"))
-        .then(() => window.location.reload())
-        .catch(error => console.error('Error!', error.message));
-    });
-  </script>
 
 
 
